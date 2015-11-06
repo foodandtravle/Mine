@@ -1,0 +1,19 @@
+//
+//  Header.pch
+//  Mine
+//
+//  Created by 张德强 on 15/11/5.
+//  Copyright © 2015年 张德强. All rights reserved.
+//
+
+#ifndef Header_pch
+#define Header_pch
+
+#define maiSrc [UIScreen mainScreen].bounds.size
+
+#define SIZE [UIScreen mainScreen].bounds.size.width/375.0
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* Header_pch */
