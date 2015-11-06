@@ -169,6 +169,8 @@
     
     UIViewController *vc=[[cl alloc]init];
     
+    vc.navigationItem.title=sender.titleLabel.text;
+    
     [self.navigationController pushViewController:vc animated:YES];
     
     NSLog(@"====%ld",sender.tag);

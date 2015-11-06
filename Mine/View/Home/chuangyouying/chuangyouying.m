@@ -20,81 +20,100 @@
     
     self.view.backgroundColor=[UIColor yellowColor];
     
-    UILabel *lable=[[UILabel alloc]initWithFrame:CGRectMake(0, maiSrc.height-149-64-10, maiSrc.width, 100)];
+    [self.view addSubview:self.tableView];
     
-    lable.backgroundColor=[UIColor redColor];
-    
-    [self.view addSubview:lable];
+    _dataArr=self.dataArr;
     
     
     
-    
-    UITextField *tf=[self createTextFieldWithFrame:CGRectMake(30, 100, 300, 30) placeholder:nil target:nil action:nil tag:0];
-    
-   
-    
-    tf.placeholder=@"asdasdadasd";
-    
-    
-    [self.view addSubview:tf];
-    
-    UIToolbar *toolBar=[[UIToolbar alloc]init];
-    
-    UIBarButtonItem *item=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(qwe:)];
-    
-    UIBarButtonItem *item2=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    
-    
-    UIBarButtonItem *item3=[[UIBarButtonItem alloc]initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:nil action:nil];
-    
-    toolBar.items=@[item,item2,item3];
-    
-    toolBar.backgroundColor=[UIColor blackColor];
-    
-    tf.inputAccessoryView=toolBar;
-    
-    UIPickerView *pick=[[UIPickerView alloc]initWithFrame:CGRectMake(0, maiSrc.height-64-149, maiSrc.width, 100)];
-    
-    pick.backgroundColor=[UIColor lightGrayColor];
-    
-    pick.delegate=self;
-    
-    tf.inputView=pick;
     
 }
 
-
-
-
--(void)asd:(UITextField *)tf{
+-(UITableView *)tableView{
     
-    [tf becomeFirstResponder];
+    if (!_tableView) {
+        
+        _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, maiSrc.width, maiSrc.height-64-49)];
+        
+        _tableView.delegate=self;
+        
+        _tableView.dataSource=self;
+        
+        UIView *ive=[[UIView alloc]initWithFrame:CGRectMake(0, 0, maiSrc.width, 44)];
+        
+        ive.backgroundColor=[UIColor redColor];
+        
+        _tableView.tableFooterView=ive;
+        
+        _tableView.separatorInset=UIEdgeInsetsMake(0, 0, 0, maiSrc.width-15);
+        
+//        [_tableView registerNib:[UINib nibWithNibName:@"" bundle:nil] forCellReuseIdentifier:@"identifier"];
+//
+//        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"identifier"];
+    }
     
-    NSLog(@"asdasd");
+    return _tableView;
 }
 
--(void)qwe:(UIBarButtonItem *)item{
-    NSLog(@"qwe");
+-(NSMutableArray *)dataArr{
+    
+    if (!_dataArr) {
+     
+        _dataArr=[[NSMutableArray alloc]init];
+        
+        [_dataArr addObject:@[@"测试A",@"测试B",@"测试C",@"测试D"]];
+        
+        NSMutableArray *arr=[NSMutableArray new];
+        
+        for (NSInteger i=0; i<30; i++) {
+            
+            [arr addObject:[NSString stringWithFormat:@"测试%ld",i]];
+        }
+        
+        [_dataArr addObject:arr];
+        
+    }
+    return _dataArr;
 }
 
--(UITextField *)createTextFieldWithFrame:(CGRect )frame placeholder:(NSString *)placeholder target:(id)target action:(SEL)action tag:(NSInteger)tag{
+
+#pragma mark =====     TableViewDelegate     ========
+-(NSInteger )numberOfSectionsInTableView:(UITableView *)tableView{
     
-    UITextField *tf=[[UITextField alloc]initWithFrame:frame];
-    
-    tf.placeholder=placeholder;
-    
-    tf.borderStyle=UITextBorderStyleRoundedRect;
-    
-    tf.adjustsFontSizeToFitWidth=YES;
-    
-    tf.textAlignment=NSTextAlignmentCenter;
-    
-    tf.tag=tag;
-    
-    [tf addTarget:target action:action forControlEvents:UIControlEventAllTouchEvents];
-    
-    return tf;
+    return _dataArr.count;
 }
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return [_dataArr[section] count];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+
+    if (section==0) {
+        
+        return @"平台公告";
+    }
+    return @"创业故事";
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *str=@"identifier";
+    
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:str];
+    
+    if (!cell) {
+        
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:str];
+    }
+    
+    cell.textLabel.text=_dataArr[indexPath.section][indexPath.row];
+    
+    return cell;
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

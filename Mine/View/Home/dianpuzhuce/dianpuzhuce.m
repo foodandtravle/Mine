@@ -94,7 +94,8 @@
     
     if (!_toolBar) {
         
-        _toolBar=[[UIToolbar alloc]init];
+        //tooBar初始化需要给予一个大小   不然的话 点容易点击无响应
+        _toolBar=[[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, maiSrc.width, 30)];
         
         UIBarButtonItem *leftItem=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(leftItemBtnClick)];
         
@@ -150,7 +151,6 @@
     }
 }
 
-
 #pragma mark 响应事件
 
 //申请开店
@@ -197,10 +197,6 @@
     UITextField *tf=(UITextField *)[self.view viewWithTag:tag];
     
     [tf resignFirstResponder];
-    
-    UITextField *tf2=(UITextField *)[self.view viewWithTag:tag+1];
-    
-    [tf2 becomeFirstResponder];
 }
 
 //确认
@@ -211,6 +207,8 @@
     NSInteger tag=[[_pickArr lastObject] integerValue];
     
     UITextField *tf=(UITextField *)[self.view viewWithTag:tag];
+    
+    tf.text=_pickStr;
     
     [tf resignFirstResponder];
     
@@ -232,23 +230,15 @@
     return _pickArr.count-1;
 }
 
-
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     
     return _pickArr[row];
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    
-    NSInteger tag=[[_pickArr lastObject] integerValue];
-    
-    UITextField *tf=(UITextField *)[self.view viewWithTag:tag];
-    
-    [tf resignFirstResponder];
-    
-    UITextField *tf2=(UITextField *)[self.view viewWithTag:tag+1];
-    
-    [tf2 becomeFirstResponder];
+
+    //需要取到所选中的cell内容
+    _pickStr=_pickArr[row];
 }
 
 #pragma mark - 光标下移，激活键盘，释放键盘
@@ -271,13 +261,13 @@
     
     switch (textField.tag) {
         case 2:
-            _pickArr.array=@[@"男",@"女",@"2"];
+            _pickArr.array=@[@"请选择",@"男",@"女",@"2"];
             break;
             case 5:
-            _pickArr.array=@[@"类型1",@"类型2",@"类型3",@"5"];
+            _pickArr.array=@[@"请选择",@"类型1",@"类型2",@"类型3",@"5"];
             break;
         default:
-            _pickArr.array=@[@"类型A",@"类型B",@"类型C",@"10"];
+            _pickArr.array=@[@"请选择",@"类型A",@"类型B",@"类型C",@"10"];
             break;
     }
 

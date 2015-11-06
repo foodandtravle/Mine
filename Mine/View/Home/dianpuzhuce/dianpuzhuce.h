@@ -21,9 +21,12 @@
 
 @property(nonatomic,strong)UIPickerView *pickView;
 
-@property(nonatomic,strong)NSMutableArray *pickArr;//pickView数据源
+//pickView数据源 里边第一个元素用于迫使用户对pickView做出选择   最后一个元素其实是用于记录tf的tag
+@property(nonatomic,strong)NSMutableArray *pickArr;
 
 @property(nonatomic,strong)UIToolbar *toolBar;
+
+@property(nonatomic,strong)NSString *pickStr;
 
 
 

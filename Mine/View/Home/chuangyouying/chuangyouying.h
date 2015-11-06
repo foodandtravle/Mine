@@ -8,6 +8,11 @@
 
 #import "BaseViewController.h"
 
-@interface chuangyouying : BaseViewController
+@interface chuangyouying : BaseViewController<UITableViewDelegate,UITableViewDataSource>
+
+@property(nonatomic,strong)UITableView *tableView;
+
+@property(nonatomic,strong)NSMutableArray *dataArr;
+
 
 @end
